@@ -3,6 +3,7 @@
 (maybe-require-package 'coffee-mode)
 (maybe-require-package 'typescript-mode)
 (maybe-require-package 'prettier-js)
+(maybe-require-package 'tide)
 
 (defcustom preferred-javascript-mode
   (first (remove-if-not #'fboundp '(js2-mode js-mode)))
@@ -16,7 +17,7 @@
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
 (eval-when-compile (require 'cl))
-(setq auto-mode-alist (cons `("\\.\\(js\\|es6\\)\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
+(setq auto-mode-alist (cons `("\\.\\(js\\|es6\\|ts\\|tsx\\)\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
                             (loop for entry in auto-mode-alist
                                   unless (eq preferred-javascript-mode (cdr entry))
                                   collect entry)))
@@ -59,7 +60,6 @@
     (add-hook 'js2-mode-hook
               (lambda () (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))))
 
-
 
 ;;; Coffeescript
 
@@ -100,13 +100,29 @@
     (add-hook 'skewer-mode-hook
               (lambda () (inferior-js-keys-mode -1)))))
 
+
+;;; Typescript
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (tide-hl-identifier-mode +1)
+  (eldoc-mode +1))
 
 
 (when (maybe-require-package 'add-node-modules-path)
   (after-load 'typescript-mode
     (add-hook 'typescript-mode-hook 'add-node-modules-path))
   (after-load 'js2-mode
-    (add-hook 'js2-mode-hook 'add-node-modules-path)))
+    (add-hook 'js2-mode-hook 'add-node-modules-path)
+    (add-hook 'js2-mode-hook 'tide-mode))
+  (after-load 'tide
+    (tide-restart-server)
+    (add-hook 'js2-mode-hook #'setup-tide-mode)  ;; JS Setup
+    (add-hook 'js2-mode-hook 'tide-mode)
+    (add-hook 'before-save-hook 'tide-format-before-save)))
 
 
 (provide 'init-javascript)

@@ -64,9 +64,8 @@
 (require 'init-recentf)
 (require 'init-smex)
 (require 'init-ivy)
-;;(require 'init-helm)
+;; (require 'init-helm)
 (require 'init-hippie-expand)
-(require 'init-company)
 (require 'init-windows)
 (require 'init-sessions)
 (require 'init-fonts)
@@ -98,22 +97,22 @@
 (require 'init-http)
 (require 'init-python)
 (require 'init-haskell)
-(require 'init-elm)
+;; (require 'init-elm)
 (require 'init-purescript)
-(require 'init-ruby)
+;; (require 'init-ruby)
 (require 'init-rails)
 (require 'init-sql)
 (require 'init-rust)
 (require 'init-toml)
 (require 'init-yaml)
 (require 'init-docker)
-(require 'init-terraform)
-(require 'init-nix)
+;; (require 'init-terraform)
+;;(require 'init-nix)
 (maybe-require-package 'nginx-mode)
 
 (require 'init-paredit)
 (require 'init-lisp)
-(require 'init-slime)
+;; (require 'init-slime)
 (require 'init-clojure)
 (require 'init-clojure-cider)
 (require 'init-common-lisp)
@@ -148,9 +147,8 @@
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
 ;;----------------------------------------------------------------------------
-(require 'server)
-(unless (server-running-p)
-  (server-start))
+;; (require 'server)
+;; (unless (server-running-p) (server-start))
 
 ;;----------------------------------------------------------------------------
 ;; Variables configured via the interactive 'customize' interface
@@ -158,6 +156,7 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(ac-config-default)
 
 ;;----------------------------------------------------------------------------
 ;; Locales (setting them earlier in this file doesn't work in X)
