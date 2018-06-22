@@ -139,9 +139,9 @@
 (maybe-require-package 'regex-tool)
 (maybe-require-package 'dotenv-mode)
 
-(when (maybe-require-package 'uptimes)
-  (setq-default uptimes-keep-count 200)
-  (add-hook 'after-init-hook (lambda () (require 'uptimes))))
+;; (when (maybe-require-package 'uptimes)
+;;   (setq-default uptimes-keep-count 200)
+;;   (add-hook 'after-init-hook (lambda () (require 'uptimes))))
 
 
 ;;----------------------------------------------------------------------------
